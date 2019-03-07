@@ -1,0 +1,49 @@
+.login {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  display: -webkit-flex;
+  .logo{
+    width: 160px;
+    height: 160px;
+    margin-top: -80px;
+    border-radius: 100%;
+    background-color: #ccc;
+    padding: 20px;
+  }
+  .login_form{
+    padding: 20px;
+    border-radius: 5%;
+    margin-top: 30px;
+    background-color: #FEFEFE;
+    opacity: 30%;
+    .inp_btn{
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    .btn{
+      margin: 20px 0;
+    }
+  }
+  .other{
+    position: relative;
+  }
+  .bad_url{
+    color: #fff;
+    padding-top: 30px;
+    text-align: center;
+  }
+  .bg{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    -webkit-filter: blur(10px); /* Chrome, Opera */
+    -moz-filter: blur(10px);
+    -ms-filter: blur(10px);    
+    filter: blur(10px); 
+  }
+}

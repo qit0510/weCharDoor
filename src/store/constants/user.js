@@ -1,0 +1,10 @@
+export const SETUSERINFO = 'SETUSERINFO';
+export const SETUSER ='SETUSER';
+export const SAVEFRIENDINFO = 'SAVEFRIENDINFO';
+export const SAVETENDLIST = 'SAVETENDLIST';
+export const SAVEAUTHLIST = 'SAVEAUTHLIST';
+export const SAVELOCKLIST = 'SAVELOCKLIST';
+export const SAVEMYLOCKLIST = 'SAVEMYLOCKLIST';
+export const DELECTLOCK = 'DELECTLOCK';
+export const ADDLOCK = 'ADDLOCK';
+export const EDITLOCK = 'EDITLOCK';

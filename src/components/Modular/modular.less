@@ -1,0 +1,62 @@
+.modular{
+    display: flex;
+    height: 666px;
+    margin: 0 30px;
+    margin-top: 50px;
+    border-radius: 5%;
+    text-align: center;
+    justify-content: center;
+    box-sizing: border-box;
+    .left{
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+    .SweepCode,.remote{
+        flex: 1;
+    }
+    .right{
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+    .model{
+        margin: 3px;
+        color: #fff;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        .icon{
+            width: 60px;
+            height: 60px;
+            margin: 0 auto;
+            padding-bottom: 20px;
+        }
+        .content{
+            display: flex;
+            flex-direction: column
+        }
+    }
+    .SweepCode{
+        background: rgba(26, 45, 53, 0.9);
+    }
+    .remote{
+        background: rgba(119, 195, 247, 0.9);
+    }
+    .apply{
+        height: 280px;
+        background: rgba(26, 45, 53, 0.5);
+    }
+    .explain{
+        background: rgba(119, 195, 247, 0.6);
+        height: 220px;
+    }
+    .me{
+        background: rgba(26, 45, 53, 0.8);
+        flex: 1;
+        .icon{
+            padding: 0 20px 0 0;
+        }
+    }
+    
+}
