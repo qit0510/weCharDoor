@@ -16,9 +16,14 @@ class ListItem extends Component {
       info:false,
       current:{},
       lockInfo:{},
-      Mainlist:[],
       currentPage:'',
     }
+  }
+  componentWillMount() {
+    let qur = Taro.getCurrentPages()
+    this.setState({
+      currentPage:qur[qur.length-1].route
+    })
   }
   // 提示框
   faceBackBox (message,type)
@@ -62,7 +67,6 @@ class ListItem extends Component {
         this.props.onDelectLock(index)
         //删除成功
         this.faceBackBox(res.data.describe,2)
-
       }else{
         this.faceBackBox(res.data.describe,3)
       }
@@ -97,34 +101,7 @@ class ListItem extends Component {
   refuseUser(target){
 
   }
-  componentWillMount() {
-    let qur = Taro.getCurrentPages()
-    this.setState({
-      currentPage:qur[qur.length-1].route
-    })
-  }
-
-  componentDidMount () {
-    //初始化列表
-    let allList = this.props.list.list;
-    if(this.state.currentPage === 'pages/tenant/tenant'){
-      this.setState({
-        Mainlist:allList.tendList
-      })
-    } else if(this.state.currentPage === 'pages/lockmanagement/lockmanagement') {
-      this.setState({
-        Mainlist:allList.lockList
-      })
-    } else if(this.state.currentPage === 'pages/authorize/authorize'){
-      this.setState({
-        Mainlist:allList.authList
-      })
-    } else {
-      this.setState({
-        Mainlist:allList.myLockList
-      })
-    }
-  }
+ 
 
   render () {
     return (
@@ -133,7 +110,7 @@ class ListItem extends Component {
       <AtList>
         {/* 用户管理 */}
         {
-          (this.state.currentPage === 'pages/tenant/tenant') && (this.state.Mainlist.map((item) => (
+          (this.state.currentPage === 'pages/tenant/tenant') && (this.props.list.list.tendList.map((item) => (
             <View key={item.id} className='tenant_li'>
               <AtListItem  className='list' title={item.name} onClick={this.handleClick.bind(this,item)} />
               <View className='list_btn'>
@@ -144,7 +121,7 @@ class ListItem extends Component {
         }
         {/* 授权管理 */}
         {
-          (this.state.currentPage === 'pages/authorize/authorize') && (this.state.Mainlist.map((item) => (
+          (this.state.currentPage === 'pages/authorize/authorize') && (this.props.list.list.authList.map((item) => (
           <View key={item.id} className='tenant_li'>
             <AtListItem  className='list' title={item.name} onClick={this.handleClick.bind(this,item)} />
             <View className='list_btn'>
@@ -156,7 +133,7 @@ class ListItem extends Component {
       }
       {/* 锁具管理 */}
         {
-          (this.state.currentPage === 'pages/lockmanagement/lockmanagement') && (this.state.Mainlist.map((item,index) => (
+          (this.state.currentPage === 'pages/lockmanagement/lockmanagement') && (this.props.list.list.lockList.map((item,index) => (
             <View key={item.id} className='tenant_li'>
               <AtListItem className='list' title={item.devId} onClick={this.handleClick.bind(this,item)} />
               <View className='list_btn'>
@@ -168,7 +145,7 @@ class ListItem extends Component {
         }
          {/* 我的门锁 */}
          {
-         (this.state.currentPage === 'pages/myLock/myLock') && (this.state.Mainlist.map((item) => (
+         (this.state.currentPage === 'pages/myLock/myLock') && (this.props.list.list.myLockList.map((item) => (
             <View key={item.id} className='tenant_li'>
               <AtListItem className='list' title={item.devId} onClick={this.handleClick.bind(this,item)} />
               <View className='list_btn'>
@@ -178,7 +155,6 @@ class ListItem extends Component {
           ))
         }
       </AtList>
-
       <AtFloatLayout className='extraInfo' isOpened={this.state.info} title='详情信息' onClose={this.handleClose.bind(this)} >
         {/* 授权管理 */}
         {

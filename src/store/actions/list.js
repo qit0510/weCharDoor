@@ -1,4 +1,4 @@
-import {SAVETENDLIST, SAVEAUTHLIST,SAVELOCKLIST,SAVEMYLOCKLIST,DELECTLOCK,ADDLOCK,EDITLOCK} from '../constants/user'
+import {SAVETENDLIST, SAVEAUTHLIST,SAVELOCKLIST,SAVEMYLOCKLIST,DELECTLOCK,ADDLOCK,EDITLOCK,ADDFRIENDINFO,EDITFRIENDINFO,SAVENACTLOCKLIST} from '../constants/user'
 
 //用户管理
 export const onSaveTendList = (data) => {
@@ -20,6 +20,12 @@ export const onSaveLockList = (data) => {
     data,
     type: SAVELOCKLIST
   }
+} 
+export const onSaveNectLockList = (data) =>{
+  return {
+    data,
+    type:SAVENACTLOCKLIST
+  }
 }
 //我的锁具管理
 export const onSaveMyLocklist = (data) => {
@@ -28,7 +34,6 @@ export const onSaveMyLocklist = (data) => {
     type: SAVEMYLOCKLIST
   }
 }
-
 //删除锁具
 export const onDelectLock = (data) =>{
   console.log(data)
@@ -49,5 +54,20 @@ export const onEditLock = (data) =>{
   return{
     data,
     type:EDITLOCK
+  }
+}
+//添加用户
+export const onAddFriendInfo = (data) => {
+  return {
+    data,
+    type:ADDFRIENDINFO
+  }
+}
+//编辑用户
+export const onEditFriendInfo = (data) =>{
+  console.log('action',data)
+  return {
+    data,
+    type:EDITFRIENDINFO
   }
 }

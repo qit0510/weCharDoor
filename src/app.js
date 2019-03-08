@@ -29,7 +29,8 @@ class App extends Component {
       'pages/tenantRecord/tenantRecord',
       'pages/lockmanagement/lockmanagement',
       'pages/addlock/addlock',
-      'pages/addTenant/addTenant'
+      'pages/addTenant/addTenant',
+      'pages/setting/setting'
     ],
     window: {
       backgroundTextStyle: 'light',

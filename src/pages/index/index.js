@@ -6,15 +6,11 @@ import Modular from '../../components/Modular/Modular'
 import http_date from '../../service/http'
 import bg from '../../assets/image/bg.png'
 import logo from '../../assets/image/door.png'
-import UnverifiedBox from '../../components/UnverifiedBox/UnverifiedBox'
 import './index.less'
 
 class Index extends Component {
   config = {
     navigationBarTitleText: '微信开门'
-  }
-  constructor (){
-    super(...arguments)
   }
   componentWillMount () {
     //扫码登陆
@@ -50,7 +46,6 @@ class Index extends Component {
           <Modular className='block' userInfo={this.props.user.user.userInfo}  />
         </View>
         <Image className='bg' src={bg} />
-        <UnverifiedBox />
       </View>
     )
   }

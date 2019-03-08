@@ -10,13 +10,14 @@ class myLock extends Component {
   config = {
     navigationBarTitleText: '我的门锁'
   }
-  componentWillMount () {
+  componentDidMount () {
     this.getList();
   }
   getList() {
     //初始化list
     http_date.getDate('lock/getLocksByUid?uid='+this.props.user.user.userInfo.id).then((res)=>{
-      this.props.onSaveLockList(res.data)
+      console.log(res)
+      this.props.onSaveMyLocklist(res.data)
     })
   }
   render () {

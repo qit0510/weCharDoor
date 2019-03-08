@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import {SAVETENDLIST, SAVEAUTHLIST,SAVELOCKLIST,SAVEMYLOCKLIST,DELECTLOCK,ADDLOCK,EDITLOCK } from '../constants/user'
+import {SAVETENDLIST, SAVEAUTHLIST,SAVELOCKLIST,SAVEMYLOCKLIST,DELECTLOCK,ADDLOCK,EDITLOCK,ADDFRIENDINFO,EDITFRIENDINFO,SAVENACTLOCKLIST } from '../constants/user'
 
 const INITIAL_STATE = {
   tendList:{},
@@ -24,6 +24,11 @@ function list (state = INITIAL_STATE, action) {
         ...state,
         lockList:action.data
       };
+    case SAVENACTLOCKLIST:
+      return {
+        ...state,
+        lockList:state.lockList.concat(action.data)
+      }
     case SAVEMYLOCKLIST:
       return {
         ...state,
@@ -45,10 +50,31 @@ function list (state = INITIAL_STATE, action) {
       }
     case EDITLOCK:
       let res3 = state.lockList;
-      res3.splice(action.data.data,1,action.data.index);
+      // res3.splice(action.data.data,1,action.data.index);
+      res3[action.data.index]=action.data.data
       return {
         ...state,
         lockList:res3
+      }
+    case ADDFRIENDINFO:
+    let res4 = state.lockList;
+    res4.splice(action.data,1);
+      return {
+        ...state,
+        tendList:res4
+      }
+    case EDITFRIENDINFO:
+    let res5 = state.tendList;
+    let arr = [];
+    res5.map((item)=>{
+      if(item.id === action.data.id){
+        item = action.data
+      }
+      arr.push(item)
+    })
+      return {
+        ...state,
+        tendList:arr
       }
     default:
       return state

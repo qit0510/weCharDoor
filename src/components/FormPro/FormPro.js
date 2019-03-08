@@ -1,8 +1,9 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { connect } from '@tarojs/redux'
-import http_date from '../../service/http'
 import { AtForm, AtInput, AtButton,Picker,AtMessage} from 'taro-ui'
+import { connect } from '@tarojs/redux'
+import {onAddFriendInfo,onEditFriendInfo} from '../../store/actions/list'
+import http_date from '../../service/http'
 import './FormPro.less'
 
 const rela = ['管理员','户主','子女','父母']
@@ -65,28 +66,30 @@ class FormPro extends Component {
     }
   }
   componentDidMount () {
+    //获取锁具
     if(this.props.user.user.userInfo.type!==0){
       this.getLockInfo();
     }else{
       this.getAllLockList();
     }
-       //编辑
-    let friend = this.props.user.user.friendInfo;
-    if(friend.id){
+    //初始化
+    let friend = this.props.user.user.friendInfo
+    if(this.props.isEdit){
+      //编辑
       this.setState({
         userInfo:friend,
         relationText:rela[friend.relation],
         typeText:idden[friend.type],
-        // lockId:AllLockId
       },()=>{
         this.setState({
           userInfo:{
             ...this.state.userInfo,
             parentId:this.props.user.user.userInfo.id
-          }
+            }
         })
       })
     }else{
+      //添加
       this.setState({
         userInfo:{
           ...this.state.userInfo,
@@ -135,7 +138,13 @@ class FormPro extends Component {
     http_date.postDate('user/editUser',{...this.state.userInfo, lockId:this.state.lockId.id}).then((res)=>{
       if(res.data.result===0){
         // 成功
-        this.faceBackBox(res.data.describe,2)
+        if(this.props.isEdit){
+          //编辑
+          this.props.onEditFriendInfo({...this.state.userInfo, lockId:this.state.lockId.id})
+        }else{
+          //添加
+          this.props.onAddFriendInfo({...this.state.userInfo, lockId:this.state.lockId.id})
+        }
         Taro.navigateBack(Taro.getCurrentPages().length-1)
       }else{
         //失败
@@ -371,6 +380,14 @@ class FormPro extends Component {
     )
   }
 }
-export default connect (({ user }) => ({
-  user
- }))(FormPro)
+
+export default connect (({ user,list }) => ({
+  user,list
+}), (dispatch) => ({
+  onAddFriendInfo (data) {
+    dispatch(onAddFriendInfo(data))
+  },
+  onEditFriendInfo (data) {
+    dispatch(onEditFriendInfo(data))
+  },
+}))(FormPro)

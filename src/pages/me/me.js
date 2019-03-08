@@ -8,7 +8,7 @@ const nalList = [
   {title:'开门记录',url:'/pages/openRecord/openRecord',icon:'credit-card'},
   {title:'访客记录',url:'/pages/tenantRecord/tenantRecord',icon:'calendar'},
   // {title:'管理门锁',url:'/pages/lockmanagement/lockmanagement',icon:'shopping-bag-2'},
-  {title:'设置中心',url:'/pages/lockmanagement/lockmanagement',icon:'settings'}
+  {title:'设置中心',url:'/pages/setting/setting',icon:'settings'}
 ]
 class Me extends Component {
   config = {

@@ -11,7 +11,9 @@ class Tenant extends Component {
   config = {
     navigationBarTitleText: '管理中心'
   }
-
+  constructor(){
+    mainlist:[]
+  }
   componentWillMount () {
     this.getList();
   }

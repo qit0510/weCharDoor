@@ -14,7 +14,6 @@ export default class UnverifiedBox extends Component {
       url: '/pages/login/login'
     })
   }
- 
   render () {
     return (
       <View className='box'>
