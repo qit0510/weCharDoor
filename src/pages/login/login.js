@@ -1,5 +1,5 @@
 import Taro, { Component } from '@tarojs/taro'
-import { View, Text,Image } from '@tarojs/components'
+import { View,Image } from '@tarojs/components'
 import { connect } from '@tarojs/redux'
 import { AtForm, AtInput, AtButton,AtMessage } from 'taro-ui'
 import {onSaveUserInfo} from '../../store/actions/user'
@@ -53,8 +53,9 @@ class Login extends Component {
   onSubmit () {
     http_date.postDate('user/login',{name:this.state.name,idcard:this.state.idcard,openid:Taro.getStorageSync('openid'),type:1}).then((res)=>{
       if(res.data.result===0){
-        console.log('账号密码登陆')
         this.props.onSaveUserInfo(res.data.describe)
+         //成功
+         this.faceBackBox('成功',3)
         Taro.redirectTo({
           url: '/pages/index/index?type=1'
         })
@@ -65,28 +66,50 @@ class Login extends Component {
     })
   }
   toRegister () {
-    let qur = this.$router.params
-    // if(qur.devid){
-      Taro.navigateTo({
-        // url: '/pages/register/register?devid='+qur.devid
-        url: '/pages/register/register'
-      })
-    // }else{
-    //   //不跳
-    // }
+    Taro.navigateTo({
+      // url: '/pages/register/register?devid='+qur.devid
+      url: '/pages/register/register'
+    })
   }
   //openid进入
   componentWillMount () {
-    http_date.postDate('user/login',{openid:Taro.getStorageSync('openid'),type:2}).then((res)=>{
-      if(res.data.result===0){
-        this.props.onSaveUserInfo(res.data.describe)
-        Taro.redirectTo({
-          url: '/pages/index/index?type=2'
-        })
-      }else{
-        //失败
+    Taro.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.record']) {
+          Taro.authorize({
+            scope: 'scope.record',
+            success() {
+              // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
+              Taro.startRecord()
+            }
+          })
+        }
       }
     })
+    let qur = this.$router.params;
+    console.log(qur)
+    if(qur.vid){
+      Taro.redirectTo({
+        url: '/pages/visitorLogin/visitorLogin?type=4&vid='+qur.vid
+      })
+    }else{
+      http_date.postDate('user/login',{openid:Taro.getStorageSync('openid'),type:2}).then((res)=>{
+        if(res.data.result===0){
+          this.props.onSaveUserInfo(res.data.describe)
+          if(qur.devid===undefined){
+            Taro.redirectTo({
+              url: '/pages/index/index?type=2'
+            })
+          }else{
+            Taro.redirectTo({
+              url: '/pages/index/index?type=2&devid='+qur.devid
+            })
+          }
+        }else{
+          //失败
+        }
+      })
+    }
   }
 
   render () {
@@ -125,10 +148,7 @@ class Login extends Component {
       </View>
       <View className='at-row at-row__justify--around'>
         <View className='at-col at-col-5 bad_url'>
-          <Text onClick={this.toRegister.bind(this)}>立即注册</Text>
-        </View>
-        <View className='at-col at-col-5 bad_url'>
-          <Text>忘记密码</Text>
+          <AtButton  type='secondary' openType='getUserInfo' onClick={this.toRegister.bind(this)} >立即注册 </AtButton >
         </View>
       </View>
       <Image className='bg' src={bg} />

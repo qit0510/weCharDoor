@@ -1,29 +1,38 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View } from '@tarojs/components'
+import { connect } from '@tarojs/redux'
 import RecordCard from '../../components/RecordCard/RecordCard'
+import http_date from '../../service/http'
 
-export default class Openrecord extends Component {
+class Openrecord extends Component {
 
   config = {
     navigationBarTitleText: '开门记录'
   }
- 
-  componentWillMount () { }
-
-  componentDidMount () { }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
+  constructor(){
+    super(...arguments)
+    this.state = {
+      list:[]
+    }
+  }
+  componentWillMount () {
+    http_date.getDate('lock/getUnlockLog?uid='+this.props.user.user.userInfo.id).then((res)=>{
+      this.setState({
+        list:res.data
+      })
+    })
+  }
  
   render () {
     return (
     <View className='me'>
-      <RecordCard />
+      <RecordCard list={this.state.list} />
     </View>
     )
   }
 }
+export default connect (({user }) => ({
+  user
+}))(Openrecord)
+
 

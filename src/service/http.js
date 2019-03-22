@@ -9,7 +9,8 @@ export default {
   },
   requestAll (url, data,method){
     return Taro.request({
-      url: 'http://211.144.114.47/' + url,
+      url:'https://bstar.js-equipment.cn/smartOpenDoor/'+url,
+      // url: 'http://192.168.10.120/smartOpenDoor/' + url,
       data: data,
       method: method,
       header: {

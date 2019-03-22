@@ -2,6 +2,7 @@ import Taro, { Component } from '@tarojs/taro'
 import { Provider } from '@tarojs/redux'
 import Login from './pages/login/login'
 import Index from './pages/index/index'
+import http_date from './service/http'
 import configStore from './store'
 import './app.less'
 
@@ -21,16 +22,20 @@ class App extends Component {
       'pages/index/index',
       'pages/register/register',
       'pages/me/me',
+      'pages/lockmanagement/lockmanagement',
+      'pages/addlock/addlock',
+      'pages/visitorLogin/visitorLogin',
+      'pages/visitor/visitor',
+      'pages/addVisitor/addVisitor',
       'pages/myLock/myLock',
       'pages/information/information',
       'pages/tenant/tenant',
       'pages/openRecord/openRecord',
       'pages/authorize/authorize',
       'pages/tenantRecord/tenantRecord',
-      'pages/lockmanagement/lockmanagement',
-      'pages/addlock/addlock',
       'pages/addTenant/addTenant',
-      'pages/setting/setting'
+      'pages/setting/setting',
+      'pages/remoteDoor/remoteDoor'
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -44,17 +49,8 @@ class App extends Component {
       success(res) {
         if (res.code) {
           // 发起网络请求
-          Taro.request({
-            url: 'https://api.weixin.qq.com/sns/jscode2session?appid=wx47beebe011f84f24&secret=0671ec766695f8ec79c36d074ccb7f5b&js_code='+res.code+'&grant_type=authorization_code',
-            header: {
-              'content-type': 'application/json'
-            },
-            success: function(result) {
-              Taro.setStorageSync('openid', result.data.openid)
-            },
-            fail: function(error) {
-                console.log(error);
-            }
+          http_date.getDate('user/getOpenId?code='+res.code).then((result)=>{
+            Taro.setStorageSync('openid', result.data.openid)
           })
         } 
       }

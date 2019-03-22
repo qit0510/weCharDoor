@@ -8,36 +8,26 @@ export default class UnverifiedBox extends Component {
   render () {
     return (
       <View className='box'>
-        <View className='record_card'>
-          <AtCard
-            note='2018-06-01 3:30'
-            extra='本人'
-            title='北京'
-            thumb='http://www.logoquan.com/upload/list/20180421/logoquan15259400209.PNG'
-          >
-            北京省达拉斯技能大赛觉得内疚啊
-        </AtCard>
-        </View>
-        <View className='record_card'>
-          <AtCard
-            note='2018-06-01 3:30'
-            extra='本人'
-            title='北京'
-            thumb='http://www.logoquan.com/upload/list/20180421/logoquan15259400209.PNG'
-          >
-            北京省达拉斯技能大赛觉得内疚啊
-          </AtCard>
-        </View>
-        <View className='record_card'>
-          <AtCard
-            note='2018-06-01 3:30'
-            extra='本人'
-            title='北京'
-            thumb='http://www.logoquan.com/upload/list/20180421/logoquan15259400209.PNG'
-          >
-            北京省达拉斯技能大赛觉得内疚啊
-          </AtCard>
-        </View>
+       {
+          this.props.list.map((item,index)=>(
+            <View className='record_card' key={index} >
+              <AtCard
+                note={item.createAt}
+                extra='详情如下'
+                // (item.type===0?'自己开锁':(item.type===1?'远程开锁':'授权开锁'))
+                title={item.userName}
+              >
+              <view>
+                锁具编号：{item.devId}
+              </view>
+              <view>
+                地址：{item.location?item.location+item.buildingNumber:'为获取详细信息'}
+              </view>
+              </AtCard>
+            </View>
+          ))
+        }
+       
       </View>
     )
   }

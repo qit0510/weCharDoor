@@ -86,7 +86,7 @@ class Lockmanagement extends Component {
         </View>
         <ListItem />
         {
-          (this.props.list.list.lockList.length === 0) ? (
+          (this.state.status=== 'noMore') ? (
             <View style='text-align:center ; padding-top:60px'>暂无数据.....</View>
           ):(
             <AtLoadMore onClick={this.handleMoreClick.bind(this)} status={this.state.status} />

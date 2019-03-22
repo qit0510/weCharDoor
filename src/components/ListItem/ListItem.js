@@ -1,6 +1,6 @@
 import Taro, { Component } from '@tarojs/taro'
 import { View , Text} from '@tarojs/components'
-import { AtList,AtListItem,AtFloatLayout,AtMessage } from "taro-ui"
+import { AtList,AtListItem,AtFloatLayout,AtMessage} from "taro-ui"
 import { connect } from '@tarojs/redux'
 import http_date from '../../service/http'
 import {onSaveFriendInfo} from '../../store/actions/user'
@@ -45,7 +45,8 @@ class ListItem extends Component {
   }
   //描述显示
   handleClick (item) {
-    (item.lockid) && this.getLock(item.lockid)
+    console.log(item)
+    // (item.lockid) && this.getLock(item.lockid) 
     this.setState({
       current:item
     },()=>{
@@ -62,6 +63,8 @@ class ListItem extends Component {
   }
   //删除锁具信息
   handleDelect(target,index){
+    // this.setState({isOpened:true},()=>{
+    //   if(this.state.isDelect){
     http_date.postDate('lock/delLock',{id:target.id}).then((res)=>{
       if(res.data.result===0){
         this.props.onDelectLock(index)
@@ -98,11 +101,12 @@ class ListItem extends Component {
     this.props.onAuthorisedUSer(target);
   }
   //删除用户授权
-  refuseUser(target){
-
-  }
- 
-
+  // refuseUser(target){
+  //   console.log(target)
+  // }
+  //解除我的门锁
+  // relieveLock(){
+  // }
   render () {
     return (
       <View className='lock_list'>
@@ -112,7 +116,9 @@ class ListItem extends Component {
         {
           (this.state.currentPage === 'pages/tenant/tenant') && (this.props.list.list.tendList.map((item) => (
             <View key={item.id} className='tenant_li'>
-              <AtListItem  className='list' title={item.name} onClick={this.handleClick.bind(this,item)} />
+              <View className='list'>
+                <AtListItem  className='list' title={item.name} onClick={this.handleClick.bind(this,item)} />
+              </View>
               <View className='list_btn'>
                 <Text className='yes_btn' onClick={this.editTendUser.bind(this,item)}>编辑</Text>
               </View>
@@ -123,10 +129,12 @@ class ListItem extends Component {
         {
           (this.state.currentPage === 'pages/authorize/authorize') && (this.props.list.list.authList.map((item) => (
           <View key={item.id} className='tenant_li'>
-            <AtListItem  className='list' title={item.name} onClick={this.handleClick.bind(this,item)} />
+            <View className='list'>
+              <AtListItem  className='list' title={item.name} onClick={this.handleClick.bind(this,item)} />
+            </View>
             <View className='list_btn'>
               <Text className='yes_btn' onClick={this.authorisedUSer.bind(this,item)}>{(item.authority===1)?'已授权':'授权'}</Text>
-              {item.authority!==1 && <Text className='no_btn' onClick={this.refuseUser.bind(this,item)}>删除</Text>}
+              {/* {item.authority!==1 && <Text className='no_btn' onClick={this.refuseUser.bind(this,item)}>删除</Text>} */}
             </View>
           </View>)
         ))
@@ -135,7 +143,9 @@ class ListItem extends Component {
         {
           (this.state.currentPage === 'pages/lockmanagement/lockmanagement') && (this.props.list.list.lockList.map((item,index) => (
             <View key={item.id} className='tenant_li'>
-              <AtListItem className='list' title={item.devId} onClick={this.handleClick.bind(this,item)} />
+              <View className='list lock_manager'>
+                <AtListItem className='list' title={item.devId} onClick={this.handleClick.bind(this,item)} />
+              </View>
               <View className='list_btn'>
                 <Text className='yes_btn' onClick={this.editLockInfo.bind(this,item,index)}>编辑</Text>
                 <Text className='no_btn' onClick={this.handleDelect.bind(this,item,index)}>移除</Text>
@@ -143,17 +153,19 @@ class ListItem extends Component {
           </View>)
           ))
         }
-         {/* 我的门锁 */}
-         {
-         (this.state.currentPage === 'pages/myLock/myLock') && (this.props.list.list.myLockList.map((item) => (
-            <View key={item.id} className='tenant_li'>
+        {/* 我的门锁 */}
+        {
+        (this.state.currentPage === 'pages/myLock/myLock') && (this.props.list.list.myLockList.map((item) => (
+          <View key={item.id} className='tenant_li'>
+            <View className='list lock'>
               <AtListItem className='list' title={item.devId} onClick={this.handleClick.bind(this,item)} />
-              <View className='list_btn'>
-                <Text className='no_btn' onClick={this.editLockInfo.bind(this,item)}>解除</Text>
-              </View>
-          </View>)
-          ))
-        }
+            </View>
+            {/* <View className='list_btn'>
+              <Text className='no_btn' onClick={this.relieveLock.bind(this,item)}>解除</Text>
+            </View> */}
+        </View>)
+        ))
+      }
       </AtList>
       <AtFloatLayout className='extraInfo' isOpened={this.state.info} title='详情信息' onClose={this.handleClose.bind(this)} >
         {/* 授权管理 */}
@@ -175,12 +187,8 @@ class ListItem extends Component {
               <View>
                 <Text className='title'>房间号: </Text><Text  className='des'>{this.state.current.room}</Text>
               </View>
-
               <View>
-                <Text className='title'>请求锁具信息:</Text><Text  className='des'>{this.state.lockInfo.location+'区'+this.state.lockInfo.buildingNumber+'栋'}</Text>
-              </View>
-              <View>
-                <Text className='title'>到期时间:</Text><Text  className='des'>{this.state.current.expireAt}</Text>
+                <Text className='title'>到期时间:</Text><Text  className='des'>{this.state.current.expireAt===null?'暂无':this.state.current.expireAt}</Text>
               </View>
             </View>
           )
@@ -190,7 +198,7 @@ class ListItem extends Component {
           (this.state.currentPage === 'pages/myLock/myLock') && (
             <View className='content'>
             <View>
-              <Text className='title'>锁型号：</Text><Text  className='des'>{this.state.current.devId}</Text>
+              <Text className='title'>锁具编号：</Text><Text  className='des'>{this.state.current.devId}</Text>
             </View>
             <View>
               <Text className='title'>所在地址:</Text><Text  className='des'>{this.state.current.location+'区'+this.state.current.buildingNumber}</Text>
@@ -199,7 +207,7 @@ class ListItem extends Component {
               <Text className='title'>创建时间:</Text><Text  className='des'>{this.state.current.createAt}</Text>
             </View>
             <View>
-              <Text className='title'>锁状态：</Text><Text  className='des'>{this.state.current.status}</Text>
+              <Text className='title'>锁状态：</Text><Text  className='des'>{this.state.current.status===0?'关闭':'开启'}</Text>
             </View>
           </View>
           )
@@ -209,16 +217,16 @@ class ListItem extends Component {
           (this.state.currentPage === 'pages/lockmanagement/lockmanagement') && (
             <View className='content'>
               <View>
-                <Text className='title'>锁型号：</Text><Text  className='des'>{this.state.current.devId}</Text>
+                <Text className='title lock'>锁具编号：</Text><Text  className='des'>{this.state.current.devId}</Text>
               </View>
               <View>
-                <Text className='title'>所在地址:</Text><Text  className='des'>{this.state.current.location+'区'+this.state.current.buildingNumber}</Text>
+                <Text className='title '>所在地址:</Text><Text  className='des'>{this.state.current.location+'区'+this.state.current.buildingNumber}</Text>
               </View>
               <View>
-                <Text className='title'>创建时间:</Text><Text  className='des'>{this.state.current.createAt}</Text>
+                <Text className='title '>创建时间:</Text><Text  className='des'>{this.state.current.createAt}</Text>
               </View>
               <View>
-                <Text className='title'>锁状态：</Text><Text  className='des'>{this.state.current.status}</Text>
+                <Text className='title '>锁状态：</Text><Text  className='des'>{this.state.current.status===0?'关闭':'开启'}</Text>
               </View>
             </View>
           )

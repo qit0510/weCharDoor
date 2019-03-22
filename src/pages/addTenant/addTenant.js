@@ -33,7 +33,6 @@ class AddTenant extends Component {
     )
   }
 }
-
 export default connect (({user }) => ({
   user
 }))(AddTenant)

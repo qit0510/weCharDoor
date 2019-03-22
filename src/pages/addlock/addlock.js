@@ -90,7 +90,7 @@ class Addlock extends Component {
       <View className='lock'>
         <AtMessage />
         <View  className='lock_form'>
-          <Text className='title'>锁型号信息</Text>
+          <Text className='title'>锁编号(IMEA)</Text>
           <AtTextarea
             value={this.state.devId}
             onChange={this.handleChangeVersion.bind(this)}

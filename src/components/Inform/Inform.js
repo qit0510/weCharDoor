@@ -55,8 +55,6 @@ export default class Inform extends Component {
   }
   onSubmit () {
     this.props.onSubmitRegister(this.state.userInfo)
-    
-
   }
   render () {
     return (

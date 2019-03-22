@@ -10,22 +10,20 @@ export default class UnverifiedBox extends Component {
     this.props.onCloseBox();
   }
   handleConfirm(){
-    Taro.redirectTo({
-      url: '/pages/login/login'
-    })
+    this.props.onConfirmBox();
   }
   render () {
     return (
       <View className='box'>
         <AtModal
           isOpened={this.props.isOpen}
-          title='权限不足'
-          cancelText='返回'
-          confirmText='去申请'
+          title='删除'
+          cancelText='取消'
+          confirmText='确定'
           onClose={this.handleClose.bind(this)}
           onCancel={this.handleToBack.bind(this)}
           onConfirm={this.handleConfirm.bind(this)}
-          content='你未获得管理身份请到管理员申请身份'
+          content='确定要删除此项'
         />
       </View>
     )

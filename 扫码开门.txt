@@ -1,0 +1,7 @@
+登陆进入：type:1
+openid进入：type：2
+扫码进入：type：0
+
+管理员：type:0
+户主：type：1
+普通用户：type:2

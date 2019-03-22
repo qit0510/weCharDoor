@@ -84,6 +84,7 @@ class FormPro extends Component {
         this.setState({
           userInfo:{
             ...this.state.userInfo,
+            openId:Taro.getStorageSync('openid'),
             parentId:this.props.user.user.userInfo.id
             }
         })
@@ -135,7 +136,7 @@ class FormPro extends Component {
   }
   //用户添加
   onSubmit () {
-    http_date.postDate('user/editUser',{...this.state.userInfo, lockId:this.state.lockId.id}).then((res)=>{
+    http_date.postDate('user/editUser',{...this.state.userInfo,openId:'000000000000000000000000000000000000000000000',lockId:this.state.lockId.id}).then((res)=>{
       if(res.data.result===0){
         // 成功
         if(this.props.isEdit){

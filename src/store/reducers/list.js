@@ -57,11 +57,10 @@ function list (state = INITIAL_STATE, action) {
         lockList:res3
       }
     case ADDFRIENDINFO:
-    let res4 = state.lockList;
-    res4.splice(action.data,1);
+    console.log(action.data)
       return {
         ...state,
-        tendList:res4
+        tendList:state.tendList.concat([action.data])
       }
     case EDITFRIENDINFO:
     let res5 = state.tendList;
